@@ -13,7 +13,7 @@ exemplo de conteudo
 .classpath
 target/
 .svn/
-.gitignore
+.gitignore 
 
 
 -----------
