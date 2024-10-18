@@ -1,0 +1,174 @@
+
+-----------
+.gitignore --> ignora arquivos para commit 
+
+exemplo de conteudo
+
+*.class
+*.project
+*.war
+*.ear
+.settings
+.tern-project
+.classpath
+target/
+.svn/
+.gitignore
+
+
+-----------
+
+
+Configuração do git
+http://git-scm.com/book/pt-br/v1/Customizando-o-Git-Configura%C3%A7%C3%A3o-do-Git
+-----------
+git clone []string fornecida pelo gitHub ou outro servidor git]
+-----------
+
+git remote --> lista de todos os servidores  
+git push [servidor] [branch]
+git checkout [branch] --> muda p/ branch
+git branch --> lista as branchs do projeto
+git branch -d [nome da branch] --> remove uma branch local
+git push push [servidor] --delete [nome da branch] --> remove uma branch do servidor (ex : git push origin --delete footCloth)
+
+----------
+Pra configurar o Git é só rodar esses dois comandos:
+
+git config --global user.name "Anderson F de Rossi"
+git config --global user.email "ict.anderson.rossi@gmail.com"
+----------
+
+----------
+autocrlf para false , converte LF pra CRLF
+git config --global core.autocrlf false
+----------
+
+----------
+Descartar TODAS as alterações dos arquivos da "working area"
+git checkout -f
+
+Descartar arquivo especifico da "working area"
+git checkout -- [arquivo]
+----------
+
+----------
+Desfazer o ultimo commit na branch local
+git reset --soft HEAD~1
+----------
+
+----------
+Posicionar em commit especifico
+git checkout {hash do commit apresentado pelo cmd git log}
+----------
+
+---------
+Desmarcar os arquivos marcados p/ commit
+git reset HEAD [ARQUIVO]
+---------
+
+----------
+salva na stash tudo que não foi comitado ainda
+git stash [save "nome da stash"]
+git stash pop ["nome da stash ou indice"] --> "baixa da stash o codigo fonte"
+----------
+
+----------
+criar nova branch
+git branch "nova_branch"  --> cria a branch
+git checkout "nova_branch" --> muda para a branch
+----------
+
+----------
+Baixar todas as atualizações do servidor
+git pull --rebase
+---------
+
+----------
+git commit [-m "texto"]      ex: git commit -m "674689 Implementar LOV "
+                             obs: git commit -m --> sem o texto abre um editor de texto (vim)
+git fetch origin develop
+git pull --rebase
+git push origin develop (servidor branch)
+----------
+
+----------                                               
+cherry-pick entre branches
+
+1º Realizar os comits na branch "develop"                
+2º Pegar "hash_commit" do github ou pelo cmd : git log ; obs: p/ sair digite q          
+3º git checkout release-candidate
+4º git fetch origin
+5º git pull --rebase
+6º git cherry-pick "hash_commit" , ex: git cherry-pick 0012ee901a8ff95e5790c7b4b2431c6b26a0c971
+7º git status
+8º resolver os conflitos e comitar
+   git commit [-m "msg"]  
+   git fetch origin
+   git pull --rebase
+   git push origin release-candidate (branch_origen branch_destino)
+9º retornar ao develop , git checkout develop
+----------
+
+----------
+TAGS 
+
+git tag -a v2.7 -m “Primeira versão beta” --> cria uma tag
+                 obs : se não utilzar a opção -m será aberto o editor do VI , após realizar a 
+				       edição executar a seqüência para salvar
+					   [esc] : w
+					   [esc] : q
+
+git tag -v v2.7	--> Mostra o TEXTO inserido durante a criação da tag  				   
+git tag -l --> lista as tags --> lista as tags
+git push --tags --> faz o push detodas as tags
+git push origin v2.7 -->  faz push apenas da tag v2.7
+git checkout tags/v2.7 --> muda a branch atual para a tag v2.7
+
+-remover uma tag do repositorio local e do servidor :
+ git push origin :v2.7
+ git tag -d v2.7
+----------------
+
+
+----------
+Merge entre Branchs
+
+Supondo que vou fazer um merge entre as branchs DEV e MASTER : 
+
+Neste caso a MASTER será a branch stable , 
+então vou fazer um merge da MASTER p/ a DEV (MASTER --> DEV)
+
+1º realizar um mege da MASTER na DEV
+git checkout master
+git pull --rebase
+git checkout dev
+git merge master
+[resolver os conflitos e commitar]
+
+2º realizar um mege da DEV na MASTER
+git checkout master
+git merge dev 
+[resolver os conflitos e commitar]
+git push 
+----------
+
+
+----------
+ Merge manual (quando usado git pull --rebase)
+ 
+ abrir o arquivo com editor de texto e procurar por trechos com >>>> <<<< e ====
+ 
+ <<<<<<<< HEAD
+     Trecho do meu código !!!!!
+ =======
+     Trecho do código de outra pessoa
+ >>>>>>>
+ 
+ Após resolver o conflito no arquivo faça :
+ 
+ git add .    --> ou escolha somente o nome do arquivo 
+ 
+ git rebase --continue  --> para continuar com o rebase 
+----------
+           
